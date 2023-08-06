@@ -4,7 +4,7 @@ NYANKO_TYPING is a typing game with Javascript created by A.M.
 # DEMO
 The scene of playing.
 ![scrshot_NT](https://github.com/halmel0217/NYANKO_TYPING/assets/141547124/377a504f-a7b9-49d3-9807-e492e3c472a3)
-You can practice to type in Japanese.
+You can practice to type in Japanese.\n
 The sentences that will be asked are compliments for a cuttie cat. All ages can enjoy.
 
 # Features
