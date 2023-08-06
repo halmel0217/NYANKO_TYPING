@@ -24,3 +24,4 @@ I will keep update and add the sentence.
 "NYANKO_TYPING" is under NO lisence.
 
 
+Thank you for reading!
