@@ -14,7 +14,7 @@ No libraries or frameworks are used, the game is built with pure JavaScript, HTM
 Environments under intel Corei5 for Windows is tested.
 
 # Note
-I will keep update and add the sentence.
+I will keep update and add the sentences.
 
 # Author
 * A.M
