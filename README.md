@@ -2,54 +2,25 @@
 NYANKO_TYPING is a typing game with Javascript created by A.M.
 
 # DEMO
-
+The scene of playing.
+![scrshot_NT](https://github.com/halmel0217/NYANKO_TYPING/assets/141547124/377a504f-a7b9-49d3-9807-e492e3c472a3)
+You can practice to type in Japanese.
+The sentences that will be asked are compliments for a cuttie cat. All ages can enjoy.
 
 # Features
+No libraries or frameworks are used, the game is built with pure JavaScript, HTML, and CSS.
 
-"hoge"のセールスポイントや差別化などを説明する
-
-# Requirement
-
-"hoge"を動かすのに必要なライブラリなどを列挙する
-
-* huga 3.5.2
-* hogehuga 1.0.2
-
-# Installation
-
-Requirementで列挙したライブラリなどのインストール方法を説明する
-
-```bash
-pip install huga_package
-```
-
-# Usage
-
-DEMOの実行方法など、"hoge"の基本的な使い方を説明する
-
-```bash
-git clone https://github.com/hoge/~
-cd examples
-python demo.py
-```
+# Test
+Environments under intel Corei5 for Windows is tested.
 
 # Note
-
-注意点などがあれば書く
+I will keep update and add the sentence.
 
 # Author
-
-作成情報を列挙する
-
-* 作成者
-* 所属
-* E-mail
+* A.M
+* E-mail: anna.jasmine323@gmail.com
 
 # License
-ライセンスを明示する
+"NYANKO_TYPING" is under no lisence.
 
-"hoge" is under [MIT license](https://en.wikipedia.org/wiki/MIT_License).
 
-社内向けなら社外秘であることを明示してる
-
-"hoge" is Confidential.
