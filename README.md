@@ -21,6 +21,6 @@ I will keep update and add the sentence.
 * E-mail: anna.jasmine323@gmail.com
 
 # License
-"NYANKO_TYPING" is under no lisence.
+"NYANKO_TYPING" is under NO lisence.
 
 
