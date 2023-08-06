@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NYANKO_TYPING</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+ 
+<script>
+
+
+const typeSound = new Audio("./audio/typing-sound.mp3");
+const wrongSound = new Audio("./audio/wrong.mp3");
+const correctSound = new Audio("./audio/correct.mp3");
+const meaw = new Audio("./audio/meaw.mp3");
+const bgmGame = new Audio("./audio/c.mp3");
+const bgmOver= new Audio("./audio/b.mp3");
+const videoElement = document.getElementById("video");
+
+
+let score = 0; //クリア数をカウント
+let miss = 0; //ミス数をカウント
+let overOnce = false; //ゲームオーバー呼び出しを一度のみに
+
+
+//ゲームを呼び出す関数
+function gameStart(){
+
+    meaw.play();
+    document.querySelector("#start").style.display = "none";
+    document.querySelector("#game").style.display = "block";
+    gameShell();
+
+}
+    
+
+//ゲーム終了画面へ移行する関数
+function gameOver(){
+    bgmGame.pause();
+    document.querySelector("#game").style.display = "none";
+    document.querySelector("#over").style.display = "block";
+    gameFinish();
+    overOnce = true;
+}
+
+
+
+//ゲームの本体
+function gameShell(){
+    
+    bgmGame.play();
+    bgmGame.loop = true;
+    bgmGame.volume = 0.5;
+
+   //inputテキスト入力。合っているかどうかの判定
+       
+   
+   typeInput.addEventListener("input" , () => {
+   
+       //タイプ音をつける
+       typeSound.play();
+       typeSound.currentTime = 0;
+   
+       const sentenceArray = typeDisplay.querySelectorAll("span");
+       const arrayValue = typeInput.value.split("");
+       let correct = true; 
+       sentenceArray.forEach((characterSpan, index) => {
+           if((arrayValue[index] == null )){
+               characterSpan.classList.remove("correct");
+               characterSpan.classList.remove("incorrect");
+               correct = false;
+           }
+   
+           else if(characterSpan.innerText == arrayValue[index]) {
+               characterSpan.classList.add("correct");
+               characterSpan.classList.remove("incorrect");
+           } else { 
+               characterSpan.classList.add("incorrect");
+               characterSpan.classList.remove("correct");  
+   
+               wrongSound.volume = 0.3;
+               wrongSound.play();
+               wrongSound.currentTime = 0;
+               
+               correct = false;
+           }
+       });
+   
+       if(correct == true){
+
+          // scoreが増えたときにvideoを表示する
+          document.querySelector("#video").style.display = "block";
+
+            setTimeout(() => {
+            document.querySelector("#video").style.display = "none";
+            }, 1500);
+
+           correctSound.play();
+           correctSound.currentTime = 0;
+           meaw.play();
+           meaw.currentTime = 0;
+
+           score++;
+           if(score>14){
+            gameOver();
+           }
+
+           scoreDisplay.innerText = `score :  ${score}  / 15`;
+
+           RenderNextSentence();
+
+
+            }
+   
+   });
+   
+   
+   
+   
+   // 問題文リスト
+   const question = [
+       'kawaiine',
+       'yosiyosi',
+       'oideoide',
+       'chu-rudayo-',
+       'nadenade',
+       'issyoniasobou',
+       'nekojarasi-furifuri',
+       'surisuri',
+       'zuttoissyodayo',
+       'kawaiinaa',
+       'gohantaberu?',
+       'nekokandayo-',
+       'kowakunaiyo',
+       'omizunomu?',
+       'oyatutaberu?',
+       'daisukidayo',
+       'burassingudayo-',
+       'karikariageru',
+       'fuwafuwadane',
+       'kitekuretearigatou',
+       'kawaisugimasu',
+       'daijoubudayo'
+
+   ];
+   
+   
+   //ランダムにして表示させたい
+   
+   function RenderNextSentence() {
+   
+   let x;
+   x=Math.floor(Math.random()*22); 
+   const sentence = question[x];
+   typeDisplay.innerText = "";
+   
+   
+   //文章を1文字ずつ生成してspanタグを生成する
+   
+   let oneText = sentence.split("");
+   
+   oneText.forEach((character) => {
+       const characterSpan = document.createElement("span");
+       characterSpan.innerText = character;
+       typeDisplay.appendChild(characterSpan);
+   
+       });
+   
+       //テキストボックスの中身を消したい
+   
+       typeInput.value = "";
+   
+       StartTimer();
+   }
+   
+   //タイマー
+   let startTime;
+   let originTime = 10;
+   
+
+   function StartTimer() {
+       timer.innerText = originTime;
+       startTime = new Date();
+       setInterval(() => {
+           timer.innerText = originTime - getTimerTime();
+           if(timer.innerText <= 0) TimeUp();
+       }, 1000);
+   }
+  
+
+   function getTimerTime() {
+       return Math.floor((new Date() - startTime) / 1000);
+   }
+
+   
+   //時間切れの処理
+   function TimeUp() {
+       miss++;
+
+       switch (miss){
+    case 1:
+        document.getElementById('zankiDisplay').src='./img/zanki2.png';
+        break;
+    case 2:
+
+        document.getElementById('zankiDisplay').src='./img/zanki1.png';
+        break;
+    case 3:
+        if (overOnce == false) {     //ゲームオーバー呼び出しを1度きりに
+        gameOver();
+        }else{
+            ;  //何もしない
+        }
+        break;
+        }
+
+        //ゲームオーバー後にもゲーム処理がループし、
+        //miss0,1,2でもmiss3のゲームオーバー画面が二重表示される為その対策。
+       
+       RenderNextSentence();
+
+   }
+   
+   RenderNextSentence();
+
+}
+
+     
+    
+//ゲームオーバー画面の中身
+
+function gameFinish(){
+
+    bgmOver.play();
+    bgmOver.loop = true;
+    bgmOver.volume = 0.5;
+    
+
+    endScore.innerText =`SCORE:\n　 ${score}`;
+    endMiss.innerText =`MISS:\n　${miss}`;
+
+
+    switch (miss){
+    case 0:
+        hitokoto.innerText = "DAISUKI!";
+        document.querySelector("#miss0").style.display = "block";
+        document.querySelector("#heart1").style.display = "block";
+        document.querySelector("#heart2").style.display = "block";
+        document.querySelector("#video2").style.display = "block";
+        break;
+    case 1:
+        hitokoto.innerText = "NAKAYOSHI";
+        document.querySelector("#miss1").style.display = "block";
+        document.querySelector("#video3").style.display = "block";
+        document.querySelector("#nikukyu1").style.display = "block";
+        document.querySelector("#nikukyu2").style.display = "block";
+        break;
+    case 2:
+        hitokoto.innerText = "NECHATTA";
+        document.querySelector("#miss2").style.display = "block";
+        document.querySelector("#nikukyu1").style.display = "block";
+        document.querySelector("#nikukyu2").style.display = "block";
+        break;  
+    case 3:
+        hitokoto.innerText = "NIGETA...";
+        document.querySelector("#miss3").style.display = "block";
+        document.querySelector("#nikukyu1").style.display = "block";
+        document.querySelector("#nikukyu2").style.display = "block";
+        break;
+
+        }
+
+
+}
+
+
+//REPLAYボタンの関数
+function replay(){
+    meaw.play();
+    meaw.currentTime = 0;
+    score = 0; //変数初期化
+    miss = 0;
+
+    bgmOver.pause(); 
+    setTimeout(() => {
+        window.location.reload();    //meawが鳴き終わってからリロード
+    }, 800);
+}
+
+
+
+</script>
+
+
+<body>
+    
+    
+    <div id="start"  style="text-align: center"onclick="gameStart()">
+    <div><img class= "title-Image" src="./img/nyankotypingnew.png"></div>
+    </div>
+
+
+
+    <div id="game" style="display: none">
+    <div class = "timer" style="text-align: center" id = "timer">0</div>
+    <div><img class = "zanki-Display" style="text-align: center"id = "zankiDisplay" src="./img/zanki.png"></div>
+    <div><img class = "timer-Image" img src="./img/Timer.png"></div>
+    <div class = "score-Display" id = "scoreDisplay">score :  0  / 15</div>
+    <div><img class = "nyan-Box" id = "nyanBox" src="./img/neko_hako.png"></div>
+    <div><img class = "video" id="video" src="./img/heart01.gif" style="display: none;"></div>
+    <div class = "container"  style="text-align: center">
+        <div class = "type-Display"id = "typeDisplay"></div>
+        <div><textarea class="type-Input" id="typeInput" autofocus></textarea>
+        </div>
+    
+    </div>
+    </div>
+
+
+        
+    <div id="over" style="display: none;"> 
+    <button class = "replay" id = "replay"onclick="replay()">REPLAY</button>
+    <div class = "end-Score" id = "endScore">SCORE</div>
+    <div class = "end-Miss" id = "endMiss">MISS</div>
+    <div class = "hitokoto" id = "hitokoto"style="text-align: center">PERFECT!</div>
+    <div><img class = "miss-3" id = "miss3"style="display: none;" src="./img/neko_sofa3.png"></div>
+    <div><img class = "miss-2" id = "miss2" style="display: none;"src="./img/neko_kotatu2.png"></div>
+    <div><img class = "miss-1" id = "miss1" style="display: none;" src="./img/neko_yoko1.png"></div>
+    <div><img class = "miss-0" id = "miss0" src="./img/neko_hiza0.png"style="display: none;"></div>
+    <div><img class = "heart1" id = "heart1" src="./img/heart.png"style="display: none;"></div>
+    <div><img class = "heart2" id = "heart2" src="./img/heart.png"style="display: none;"></div>
+    <div><img class = "video2" id="video2" src="./img/heart01.gif" style="display: none;"></div>
+    <div><img class = "video3" id="video3" src="./img/heart01.gif" style="display: none;"></div>
+    <div><img class = "nikukyu1" id="nikukyu1" src="./img/nikukyu.png" style="display: none;"></div>
+    <div><img class = "nikukyu2" id="nikukyu2" src="./img/nikukyu.png" style="display: none;"></div>
+   
+    </div>
+
+
+</body>
+</html>
+
